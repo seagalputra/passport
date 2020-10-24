@@ -1,4 +1,4 @@
-package com.seagalputra.passport.client;
+package com.seagalputra.passport.passcode;
 
 import com.seagalputra.passport.api.account.request.RegisterAccountRequest;
 import org.springframework.cloud.openfeign.FeignClient;

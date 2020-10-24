@@ -2,7 +2,7 @@ package com.seagalputra.passport.account;
 
 import com.seagalputra.passport.api.account.request.RegisterAccountRequest;
 import com.seagalputra.passport.api.exception.AlreadyRegisteredException;
-import com.seagalputra.passport.client.PasscodeClient;
+import com.seagalputra.passport.passcode.PasscodeClient;
 import com.seagalputra.passport.temporaryaccount.TemporaryAccount;
 import com.seagalputra.passport.temporaryaccount.TemporaryAccountRepository;
 import lombok.AllArgsConstructor;
