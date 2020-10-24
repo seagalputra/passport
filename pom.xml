@@ -8,7 +8,8 @@
         <module>passport-otp-service</module>
         <module>passport-common</module>
         <module>passport-api</module>
-    </modules>
+		<module>passport-registry</module>
+	</modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
