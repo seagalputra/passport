@@ -17,4 +17,9 @@ public class AccountController {
     public void registerAccount(@RequestBody RegisterAccountRequest request) {
         accountService.registerAccount(request);
     }
+
+    @GetMapping("/accounts")
+    public String testLoadBalancer() {
+        return accountService.testLoadBalancer();
+    }
 }

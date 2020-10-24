@@ -34,4 +34,9 @@ public class AccountServiceImpl implements AccountService {
 
         passcodeClient.requestPasscode(request);
     }
+
+    @Override
+    public String testLoadBalancer() {
+        return passcodeClient.checkPort();
+    }
 }
