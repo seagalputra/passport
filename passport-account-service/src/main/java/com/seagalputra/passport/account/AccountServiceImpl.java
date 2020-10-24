@@ -2,6 +2,7 @@ package com.seagalputra.passport.account;
 
 import com.seagalputra.passport.api.account.request.RegisterAccountRequest;
 import com.seagalputra.passport.api.exception.AlreadyRegisteredException;
+import com.seagalputra.passport.client.PasscodeClient;
 import com.seagalputra.passport.temporaryaccount.TemporaryAccount;
 import com.seagalputra.passport.temporaryaccount.TemporaryAccountRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final TemporaryAccountRepository temporaryAccountRepository;
+    private final PasscodeClient passcodeClient;
 
     @Override
     public void registerAccount(RegisterAccountRequest request) {
@@ -29,5 +31,7 @@ public class AccountServiceImpl implements AccountService {
         temporaryAccount.setEmail(email);
         temporaryAccount.setValid(false);
         temporaryAccountRepository.save(temporaryAccount);
+
+        passcodeClient.requestPasscode(request);
     }
 }

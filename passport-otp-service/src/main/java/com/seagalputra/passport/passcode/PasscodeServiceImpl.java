@@ -23,7 +23,7 @@ public class PasscodeServiceImpl implements PasscodeService {
                 .ifPresent(passcodeRepository::delete);
 
         String passcode = generatePasscode();
-        log.debug("Generated Passcode : {}", passcode);
+        log.info("Generated Passcode : {}", passcode);
 
         Passcode requestedPasscode = Passcode.builder()
                 .email(request.getEmail())
@@ -34,6 +34,6 @@ public class PasscodeServiceImpl implements PasscodeService {
     }
 
     private String generatePasscode() {
-        return new DecimalFormat("0000").format(new Random().nextInt());
+        return new DecimalFormat("0000").format(new Random().nextInt(9999));
     }
 }
