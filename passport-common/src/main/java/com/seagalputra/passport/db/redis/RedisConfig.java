@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
@@ -19,6 +21,9 @@ public class RedisConfig {
     @Value("${spring.redis.port:6397}")
     private int redisPort;
 
+    @Value("${spring.redis.channel.name:emailSender}")
+    private String redisChannelName;
+
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisHost, redisPort);
@@ -31,5 +36,17 @@ public class RedisConfig {
         template.setConnectionFactory(redisConnectionFactory());
         template.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
         return template;
+    }
+
+    @Bean
+    public RedisMessageListenerContainer redisMessageListenerContainer() {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(redisConnectionFactory());
+        return container;
+    }
+
+    @Bean
+    public ChannelTopic channelTopic() {
+        return new ChannelTopic(redisChannelName);
     }
 }

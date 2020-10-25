@@ -9,7 +9,8 @@
         <module>passport-common</module>
         <module>passport-api</module>
 		<module>passport-registry</module>
-	</modules>
+        <module>passport-email-service</module>
+    </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
