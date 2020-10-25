@@ -10,6 +10,7 @@
         <module>passport-api</module>
 		<module>passport-registry</module>
         <module>passport-email-service</module>
+        <module>passport-gateway-service</module>
     </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>

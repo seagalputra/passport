@@ -8,20 +8,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/passcodes")
 @AllArgsConstructor
 @Slf4j
 public class PasscodeController {
 
     private final PasscodeService passcodeService;
 
-    @PostMapping("/passcodes")
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public void requestPasscode(@RequestBody RegisterAccountRequest request) {
         passcodeService.requestPasscode(request);
     }
 
-    @PostMapping("/passcodes/verify")
+    @PostMapping("/verify")
     public void verifyPasscode(@RequestBody VerifyPasscodeRequest request) {
         passcodeService.verifyPasscode(request);
     }

@@ -8,25 +8,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1")
 @AllArgsConstructor
+@RequestMapping("/v1/accounts")
 public class AccountController {
 
     private final AccountService accountService;
 
-    @PostMapping("/accounts")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@RequestBody RegisterAccountRequest request) {
         accountService.registerAccount(request);
     }
 
-    @PostMapping("/accounts/verify")
+    @PostMapping("/verify")
     @ResponseStatus(HttpStatus.OK)
     public void verifyAccount(@RequestBody VerifyPasscodeRequest request) {
         accountService.verifyPasscode(request);
     }
 
-    @PostMapping("/accounts/password")
+    @PostMapping("/password")
     @ResponseStatus(HttpStatus.CREATED)
     public void createPassword(@RequestBody CreatePasswordRequest request) {
         accountService.createAccountPassword(request);
