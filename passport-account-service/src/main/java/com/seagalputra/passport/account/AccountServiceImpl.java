@@ -1,6 +1,8 @@
 package com.seagalputra.passport.account;
 
+import com.seagalputra.passport.api.account.request.CreatePasswordRequest;
 import com.seagalputra.passport.api.account.request.RegisterAccountRequest;
+import com.seagalputra.passport.api.exception.AccountNotValidException;
 import com.seagalputra.passport.api.exception.AlreadyRegisteredException;
 import com.seagalputra.passport.api.exception.NotFoundException;
 import com.seagalputra.passport.api.passcode.request.VerifyPasscodeRequest;
@@ -50,5 +52,22 @@ public class AccountServiceImpl implements AccountService {
 
         account.setValid(true);
         temporaryAccountRepository.save(account);
+    }
+
+    @Override
+    public void createAccountPassword(CreatePasswordRequest request) {
+        TemporaryAccount temporaryAccount = temporaryAccountRepository.findFirstByEmail(request.getEmail())
+                .orElseThrow(() -> new NotFoundException("Account with email " + request.getEmail() + "not found!"));
+
+        if (!temporaryAccount.isValid()) throw new AccountNotValidException("Account isn't valid!");
+
+        Account account = Account.builder()
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .build();
+
+        accountRepository.save(account);
+
+        temporaryAccountRepository.delete(temporaryAccount);
     }
 }

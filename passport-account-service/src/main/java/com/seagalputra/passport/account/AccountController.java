@@ -1,5 +1,6 @@
 package com.seagalputra.passport.account;
 
+import com.seagalputra.passport.api.account.request.CreatePasswordRequest;
 import com.seagalputra.passport.api.account.request.RegisterAccountRequest;
 import com.seagalputra.passport.api.passcode.request.VerifyPasscodeRequest;
 import lombok.AllArgsConstructor;
@@ -23,5 +24,11 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public void verifyAccount(@RequestBody VerifyPasscodeRequest request) {
         accountService.verifyPasscode(request);
+    }
+
+    @PostMapping("/accounts/password")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createPassword(@RequestBody CreatePasswordRequest request) {
+        accountService.createAccountPassword(request);
     }
 }
