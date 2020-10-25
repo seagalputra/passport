@@ -2,6 +2,9 @@ package com.seagalputra.passport.passcode;
 
 import com.seagalputra.passport.api.account.request.RegisterAccountRequest;
 import com.seagalputra.passport.api.email.request.SendEmailRequest;
+import com.seagalputra.passport.api.exception.NotFoundException;
+import com.seagalputra.passport.api.exception.NotMatchException;
+import com.seagalputra.passport.api.passcode.request.VerifyPasscodeRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -38,6 +41,17 @@ public class PasscodeServiceImpl implements PasscodeService {
         passcodeRepository.save(requestedPasscode);
 
         sendEmail(email, "Kode Verifikasi Anda: " + passcode);
+    }
+
+    @Override
+    public void verifyPasscode(VerifyPasscodeRequest request) {
+
+        String email = request.getEmail();
+
+        Passcode passcode = passcodeRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Email " + email + " not found!"));
+
+        if (!passcode.getOtp().equals(request.getOtp())) throw new NotMatchException("Passcode doesn't match!");
     }
 
     private void sendEmail(String to, String body) {

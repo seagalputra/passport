@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
@@ -14,6 +15,7 @@ import org.springframework.data.redis.core.index.Indexed;
 @RedisHash(value = "otp", timeToLive = 300)
 public class Passcode {
 
+    @Id
     private String id;
 
     private String otp;

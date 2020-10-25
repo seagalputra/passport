@@ -1,6 +1,7 @@
 package com.seagalputra.passport.account;
 
 import com.seagalputra.passport.api.account.request.RegisterAccountRequest;
+import com.seagalputra.passport.api.passcode.request.VerifyPasscodeRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,9 @@ public class AccountController {
         accountService.registerAccount(request);
     }
 
-    @GetMapping("/accounts")
-    public String testLoadBalancer() {
-        return accountService.testLoadBalancer();
+    @PostMapping("/accounts/verify")
+    @ResponseStatus(HttpStatus.OK)
+    public void verifyAccount(@RequestBody VerifyPasscodeRequest request) {
+        accountService.verifyPasscode(request);
     }
 }

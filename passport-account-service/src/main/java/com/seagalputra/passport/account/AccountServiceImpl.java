@@ -2,14 +2,18 @@ package com.seagalputra.passport.account;
 
 import com.seagalputra.passport.api.account.request.RegisterAccountRequest;
 import com.seagalputra.passport.api.exception.AlreadyRegisteredException;
+import com.seagalputra.passport.api.exception.NotFoundException;
+import com.seagalputra.passport.api.passcode.request.VerifyPasscodeRequest;
 import com.seagalputra.passport.passcode.PasscodeClient;
 import com.seagalputra.passport.temporaryaccount.TemporaryAccount;
 import com.seagalputra.passport.temporaryaccount.TemporaryAccountRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -26,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
                 });
 
         TemporaryAccount temporaryAccount = temporaryAccountRepository.findFirstByEmail(email)
-                .orElse(TemporaryAccount.builder().build());
+                .orElse(new TemporaryAccount());
 
         temporaryAccount.setEmail(email);
         temporaryAccount.setValid(false);
@@ -36,7 +40,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String testLoadBalancer() {
-        return passcodeClient.checkPort();
+    public void verifyPasscode(VerifyPasscodeRequest request) {
+        String email = request.getEmail();
+
+        TemporaryAccount account = temporaryAccountRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Account with email " + email + " not found!"));
+
+        passcodeClient.verifyPasscode(request);
+
+        account.setValid(true);
+        temporaryAccountRepository.save(account);
     }
 }
