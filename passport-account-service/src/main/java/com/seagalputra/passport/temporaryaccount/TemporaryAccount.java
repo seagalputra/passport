@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 @Data
 @Builder
@@ -14,6 +15,9 @@ import org.springframework.data.redis.core.RedisHash;
 public class TemporaryAccount {
 
     private String id;
+
+    @Indexed
     private String email;
+
     private boolean isValid = false;
 }
